@@ -1,4 +1,6 @@
 class NQueens {
+    // T(N) = N * T(N-1) = O(N!)
+    // S(N) = O(N^2)
     public static void main(String[] args) {
         System.out.println("Total arrangements for 1 queens: " + getAllPatterns(1));
         System.out.println("Total arrangements for 2 queens: " + getAllPatterns(2));
