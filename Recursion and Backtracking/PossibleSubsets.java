@@ -23,7 +23,9 @@ public class PossibleSubsets {
     private static int generateSubsets(List<Integer> current, List<Integer> list, int index) {
         System.out.println("Current subset: " + current);
         // base case
-
+        if (index == list.size()) {
+            return 1; // leaf node
+        }
 
         // transition
         int count = 0;
