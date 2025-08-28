@@ -1,5 +1,11 @@
 import java.util.Arrays;
 
+/*
+    * Arrays are by-default initialized with 0 for int, null for objects and false for boolean.
+    * For n-D initialization array length of 1st dimension must be specified.
+    * Using global variable passing is not a good practice, better is to passing as a parameter.
+    * In java everything is passed by value, but for objects the reference is passed by value.
+*/
 public class ArraysMethods {
     public static void main(String[] args) {
         int arr[] = {5, 2, 8, 7, 1};
