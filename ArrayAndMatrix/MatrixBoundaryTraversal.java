@@ -111,7 +111,7 @@ public class MatrixBoundaryTraversal {
         }
     }
 
-    /* Variation - 3: 
+    /* Variation - 3: Recursive Spiral traversal of a matrix
     */
     private static void recursiveSpiralTraversal(int[][] matrix, int start) {
         // base condition
