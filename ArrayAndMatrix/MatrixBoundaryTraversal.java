@@ -105,7 +105,7 @@ public class MatrixBoundaryTraversal {
         int totalCols = matrix[0].length;
         int start = 0;
 
-        while(start <= totalRows / 2 && start <= totalCols / 2) {
+        while(start < totalRows / 2.0 && start < totalCols / 2.0) {         // VIMP: this was wrong in previous commit
             printBoundary(matrix, start);
             start++;
         }
