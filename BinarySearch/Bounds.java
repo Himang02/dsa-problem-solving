@@ -10,11 +10,49 @@ public class Bounds{
     public static void main(String[] args) {
         int[] arr1 = {1};
         System.out.println("Upper Bound of 0: " + getUpperBound(arr1, 0));
-        System.out.println("Upper Bound of 1: " + getUpperBound(arr1, 1));
-        System.out.println("Upper Bound of 2: " + getUpperBound(arr1, 2));
         System.out.println("Lower Bound of 0: " + getLowerBound(arr1, 0));
+        System.out.println("Count of 0: " + getCount(arr1, 0));
+        System.out.println("Upper Bound of 1: " + getUpperBound(arr1, 1));
         System.out.println("Lower Bound of 1: " + getLowerBound(arr1, 1));
+        System.out.println("Count of 1: " + getCount(arr1, 1));
+        System.out.println("Upper Bound of 2: " + getUpperBound(arr1, 2));
         System.out.println("Lower Bound of 2: " + getLowerBound(arr1, 2));
+        System.out.println("Count of 2: " + getCount(arr1, 2));
+
+
+        int[] arr2 = {1, 1};
+        System.out.println("Upper Bound of 0: " + getUpperBound(arr2, 0));
+        System.out.println("Lower Bound of 0: " + getLowerBound(arr2, 0));
+        System.out.println("Count of 0: " + getCount(arr2, 0));
+        System.out.println("Upper Bound of 1: " + getUpperBound(arr2, 1));
+        System.out.println("Lower Bound of 1: " + getLowerBound(arr2,   1));
+        System.out.println("Count of 1: " + getCount(arr2, 1));
+        System.out.println("Upper Bound of 2: " + getUpperBound(arr2, 2));
+        System.out.println("Lower Bound of 2: " + getLowerBound(arr2, 2));
+        System.out.println("Count of 2: " + getCount(arr2, 2));
+
+        int[] arr3 = {1, 2, 2, 2, 3, 4, 5};
+        System.out.println("Upper Bound of 0: " + getUpperBound(arr3, 0));
+        System.out.println("Lower Bound of 0: " + getLowerBound(arr3, 0));
+        System.out.println("Count of 0: " + getCount(arr3, 0));
+        System.out.println("Upper Bound of 1: " + getUpperBound(arr3, 1));
+        System.out.println("Lower Bound of 1: " + getLowerBound(arr3, 1));
+        System.out.println("Count of 1: " + getCount(arr3, 1));
+        System.out.println("Upper Bound of 2: " + getUpperBound(arr3, 2));
+        System.out.println("Lower Bound of 2: " + getLowerBound(arr3, 2));
+        System.out.println("Count of 2: " + getCount(arr3, 2));
+        System.out.println("Upper Bound of 3: " + getUpperBound(arr3,   3));
+        System.out.println("Lower Bound of 3: " + getLowerBound(arr3,   3));
+        System.out.println("Count of 3: " + getCount(arr3, 3));
+        System.out.println("Upper Bound of 4: " + getUpperBound(arr3, 4));
+        System.out.println("Lower Bound of 4: " + getLowerBound(arr3, 4));
+        System.out.println("Count of 4: " + getCount(arr3, 4));
+        System.out.println("Upper Bound of 5: " + getUpperBound(arr3, 5));
+        System.out.println("Lower Bound of 5: " + getLowerBound(arr3, 5));
+        System.out.println("Count of 5: " + getCount(arr3, 5));
+        System.out.println("Upper Bound of 6: " + getUpperBound(arr3, 6));
+        System.out.println("Lower Bound of 6: " + getLowerBound(arr3, 6));
+        System.out.println("Count of 6: " + getCount(arr3, 6));
     }
 
 
@@ -23,7 +61,7 @@ public class Bounds{
 
         while(end - start > 1){
             int mid = start + (end - start) / 2;
-            if(boundPredicate(arr[mid], target)){
+            if(upperBoundPredicate(arr[mid], target)){
                 end = mid;
             }
             else{
@@ -39,17 +77,27 @@ public class Bounds{
 
         while(end - start > 1){
             int mid = start + (end - start) / 2;
-            if(boundPredicate(arr[mid], target)){
+            if(lowerBoundPredicate(arr[mid], target)){
                 end = mid;
             }
             else{
                 start = mid;
             }
         }
-        return start;
+        return end;
     }
 
-    private static boolean boundPredicate(int number, int target){
+    private static boolean upperBoundPredicate(int number, int target){
         return number > target;
+    }
+    private static boolean lowerBoundPredicate(int number, int target){
+        return number >= target;
+    }
+
+    private static int getCount(int [] arr, int target){
+        int upperBound = getUpperBound(arr, target);
+        int lowerBound = getLowerBound(arr, target);
+        // System.out.println("Count of " + target + " is: " + (upperBound - lowerBound));
+        return upperBound - lowerBound;
     }
 }
