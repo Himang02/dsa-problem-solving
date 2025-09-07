@@ -20,6 +20,7 @@ public class SBATemplate {
     public static int binarySearch(int[] arr, int start, int end){
         int L = start, R = end;
 
+        // Part below this remain constant for any SBA problem
         while(R-L>1){
             int M = L + (R-L)/2; // To avoid overflow, (L+R)/2 may exceed int range
             if(arr[M]==0){
@@ -29,6 +30,8 @@ public class SBATemplate {
                 R = M;
             }
         }
+        // End of constant part
+
         return L; // or R, depending on what is required
     }
 }
