@@ -2,6 +2,14 @@ import java.util.*;
 
 public class MathMethods {
     public static void main(String[] args) {
+        /* 
+         * Maximum value of various data types
+         * Integer: 2,147,483,647
+         * Long: 9,223,372,036,854,775,807
+         * Float: 3.4028235E38
+         * Double: 1.7976931348623157E308
+         */
+
         System.out.println(Math.abs(-10));         // absolute value
         System.out.println(Math.max(10, 20));
         System.out.println(Math.min(10, 20));
