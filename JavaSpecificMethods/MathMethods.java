@@ -31,5 +31,9 @@ public class MathMethods {
         // print a float up to 3 decimal places
         System.out.println(String.format("%.3f", Math.random()*100));
 
+        int a = 9, b = 4;
+        System.out.println((a+b-1)/b);  // ceiling of integer division
+        System.out.println(a/b); // floor of integer division   
+
     }
 }
