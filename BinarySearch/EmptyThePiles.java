@@ -3,6 +3,16 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 import java.io.IOException;
 
+/*
+ * Empty The Piles :
+ * There are n piles of stones arranged in row where the i−th pile has ai stones. You can perform certain operations on these piles. 
+ * In one operation, you can select any non-empty pile and remove at most k stones from it. 
+ * Your goal to remove all the stones (i.e. empty all the n piles) in at most h operations. 
+ * Find the minimum value of k such that you can empty all the piles within h operations.
+ * INPUT: The first line contains 2 integers - n and h, 1≤n≤105 and n≤h≤109. The next line contains n spaced integers - ai, the number of stones in the i−th pile. 1≤ai≤109 for 0≤i≤n−1.
+ * OUTPUT: Output a single integer - the minimum value of k.
+ */
+
 public class EmptyThePiles {
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
