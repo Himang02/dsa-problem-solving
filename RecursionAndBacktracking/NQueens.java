@@ -16,7 +16,7 @@ class NQueens {
     private static int getAllPatterns(int N) {
 
         boolean[][] board = new boolean[N][N];
-        boolean[] rows = new boolean[N];
+        boolean[] rows = new boolean[N];            // can be int[] where we store the col number for each row. if -1 means no queen placed in that row.
         boolean[] diag1 = new boolean[2*N - 1];
         boolean[] diag2 = new boolean[2*N - 1];
 
