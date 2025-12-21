@@ -4,12 +4,22 @@ public class GenerateParentheses {
     public static void main(String[] args) { 
         Set<String> set = new HashSet<>();
         Set<String> alreadyRecursed = new HashSet<>(); 
-        getBracketPermutations("", 4, set, alreadyRecursed); 
+        getBracketPermutations("", 8, set, alreadyRecursed); 
         for(String s : set){ 
             System.out.println(s); 
         } 
-        System.out.println(set.size()); 
-        System.out.println(noOfRecursiveCalls); 
+        System.out.println("Size of set: " + set.size()); 
+        System.out.println("No. of recursive calls: " + noOfRecursiveCalls); 
+
+        noOfRecursiveCalls = 0;
+        List<String> combs = new ArrayList<>();
+        getBracketPermutations2("", combs, 0, 0, 8);
+
+        System.out.println("Size of list: " + combs.size());
+        System.out.println("No. of recursive calls: " + noOfRecursiveCalls);
+        // for(String s : combs){
+        //     System.out.println(s);
+        // }
     } 
     private static void getBracketPermutations(String currentString, int n, Set<String> set, Set<String> alreadyRecursed){ 
         noOfRecursiveCalls++;
@@ -27,5 +37,22 @@ public class GenerateParentheses {
                 getBracketPermutations(newString, n-1, set, alreadyRecursed); 
             } 
         } 
+    }
+
+    private static void getBracketPermutations2(String cur, List<String> combs, int open, int close, int n){
+        noOfRecursiveCalls++;
+        // base case
+        if(cur.length() == 2*n){
+            combs.add(cur);
+            return;
+        }
+
+        // transisiton
+        if(open < n){
+            getBracketPermutations2(cur + "(", combs, open+1, close, n);
+        }
+        if(close< open){
+            getBracketPermutations2(cur + ")", combs, open, close+1, n);
+        }
     }
 }
