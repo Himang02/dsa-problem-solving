@@ -24,6 +24,7 @@ public class WineSelling{
         System.out.println("Maximum profit from selling wines (Bottom-Up DP): " + maxProfit);
     }
 
+    // state: left, right: maximum profit from selling wines in prices[left..right] in current year
     public static int getMaxProfit(int[] prices, int left, int right, int year) {
         //base case
         if(left == right){

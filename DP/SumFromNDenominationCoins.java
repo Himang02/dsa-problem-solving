@@ -53,7 +53,8 @@ public class SumFromNDenominationCoins {
         }
         return countWaysToSumTopDown(n, denominations.length, denominations, dp);
     }
-    
+
+    // state: remainingSum, remainingDenominations: number of ways to form remainingSum using last remainingDenominations coins
     public static int countWaysToSum(int remainingSum, int remainingDenominations, int[] denominations) {
         
         // base case

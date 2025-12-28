@@ -18,6 +18,7 @@ public class TilePermutations{
         System.out.println("Number of ways to arrange tiles of length "+ n + " : " + arrangements);
     }
 
+    // state: n: number of ways to arrange tiles in n length
     public static int countTileArrangements(int n) {
         // base case
         if(n <= 1){
