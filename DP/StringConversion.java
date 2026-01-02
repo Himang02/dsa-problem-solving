@@ -1,5 +1,13 @@
 import java.util.Arrays;
 
+// Find the minimum number of operations required to convert string s1 to s2
+// You can perform the following operations on a string:
+// 1. Insert a character
+// 2. Remove a character
+// 3. Replace a character
+
+// PATTERN: perform all combinations
+
 public class StringConversion {
     public static void main(String[] args) {
         String s1 = "sunday";

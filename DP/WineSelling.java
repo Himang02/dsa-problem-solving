@@ -1,6 +1,19 @@
 import java.util.Arrays;
 
 
+// You have a collection of N wines placed next to each other on a shelf. Let's number the wines from left to right as they are standing on the shelf with integers from 1 to N, respectively.
+// The price of the ith wine is Pi (prices of different wines can be different). Because the wines get better every year, supposing today is the year 1, 
+// on year Y the price of the ith wine will be Y∗Pi, that is Y times the value of wine that current year.
+// You want to sell all the wines you have, but you want to sell exactly one wine per year, starting this year. 
+// Each year you are allowed to sell only either the leftmost or the rightmost wine on the shelf and you are not allowed to reorder the wines on the shelf 
+// (i.e. they must stay in the same order as they are in the beginning).
+// You want to find out, what is the maximum profit you can get, if you sell the wines in optimal order.
+
+// Input: The first line contains a single integer N - number of wine bottles on the shelf. 
+// The next line contains N space separated integers Pi, for 1≤i≤N.
+
+// Output: Print a single integer - the maximum profit you can get by selling the wines in optimal order.
+
 public class WineSelling{
     public static void main(String[] args) {
         int[] prices = {2,3,5,1,4};
@@ -84,26 +97,6 @@ public class WineSelling{
         }
 
         return dp[0][n-1];
-
-
-        // for(int length = 1; length <= n; length++) {
-        //     for(int left = 0; left <= n - length; left++) {
-        //         int right = left + length - 1;
-        //         int year = n - (right - left);
-
-        //         if(left == right) {
-        //             dp[left][right] = year * prices[left];
-        //         } else {
-        //             dp[left][right] = Math.max(
-        //                 prices[left] * year + dp[left + 1][right],
-        //                 prices[right] * year + dp[left][right - 1]
-        //             );
-        //         }
-        //     }
-        // }
-        // return dp[0][n - 1];
-
-
     }
 
 }

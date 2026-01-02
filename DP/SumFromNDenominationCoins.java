@@ -1,5 +1,10 @@
 import java.util.Arrays;
 
+// Count the number of ways to sum up to n using coins of given denominations (infinite supply)
+// Example: n = 5, denominations = [1,2,3]
+// Output: 5
+
+// PATTERN: Include-Exclude
 
 public class SumFromNDenominationCoins {
     public static void main(String[] args) {

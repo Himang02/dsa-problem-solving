@@ -1,5 +1,14 @@
 import java.util.Arrays;
 
+// You have an infinite supply of 2 x 1 dimension tiles.
+// You are allowed to rotate the tile to orient them horizontally or vertically.
+// You want to tile a 2 x N dimension corridor using 2 x 1 tiles.
+// Find number of unique ways of tiling the 2 x N dimension corridor modulo 1000000007.
+// 1≤N≤105
+
+// Input : Single integer N denoting length of corridor.
+// Output: Print a single integer - number of ways to tile the corridor modulo 1000000007.
+
 public class TilePermutations{
     public static void main(String[] args) {
         for(int n = 1; n<=10; n++){
