@@ -13,14 +13,14 @@ public class GenerateParentheses {
 
         // noOfRecursiveCalls = 0;
         List<String> combs = new ArrayList<>();
-        getBracketPermutations2("", combs, 0, 0, 4);
+        getBracketPermutations2("", combs, 0, 0, 6);
         for(String s : combs){
             System.out.println(s);
         }
 
         System.out.println("Size of list: " + combs.size());
         combs = new ArrayList<>();
-        getBracketPermutations3(4, 4, "", combs);
+        getBracketPermutations3(6, 6, "", combs);
 
         // System.out.println("Size of list: " + combs.size());
         // System.out.println("No. of recursive calls: " + noOfRecursiveCalls);
@@ -28,6 +28,13 @@ public class GenerateParentheses {
             System.out.println(s);
         }
         System.out.println("Size of list: " + combs.size());
+
+        int[][] dp = new int[7][7];
+        for(int i = 0; i< dp.length; i++){
+            Arrays.fill(dp[i], -1);
+        }
+        System.out.println(noOfBracketPermutations(6, 6, dp));
+
     } 
     private static void getBracketPermutations(String currentString, int n, Set<String> set, Set<String> alreadyRecursed){ 
         noOfRecursiveCalls++;
@@ -83,5 +90,30 @@ public class GenerateParentheses {
         if(remainingClose > remainingOpen){
             getBracketPermutations3(remainingOpen, remainingClose-1, cur + ")", combs); // action (on string), recusion and cancellation all in one line
         }
+    }
+
+
+    // since the path - remaining open and close brackets is small, we can use memoization to avoid repeated calculations and reduce the number of recursive calls.
+    // state: remaining open, remaining close
+    private static int noOfBracketPermutations(int remainingOpen, int remainingClose, int[][] dp){
+        // memory
+        if(dp[remainingOpen][remainingClose] != -1){
+            return dp[remainingOpen][remainingClose];
+        }
+        
+        // base case
+        if(remainingOpen == 0 && remainingClose == 0){
+            return dp[remainingOpen][remainingClose] = 1;
+        }
+
+        // transisiton
+        int count = 0;
+        if(remainingOpen > 0){
+            count = noOfBracketPermutations(remainingOpen-1, remainingClose, dp);
+        }
+        if(remainingClose > remainingOpen){
+            count += noOfBracketPermutations(remainingOpen, remainingClose-1, dp);
+        }
+        return dp[remainingOpen][remainingClose] = count;
     }
 }
