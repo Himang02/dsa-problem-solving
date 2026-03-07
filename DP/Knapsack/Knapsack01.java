@@ -22,14 +22,15 @@ public class Knapsack01{
         weights = new int[]{1, 2, 3, 4, 5};
         values = new int[]{10, 15, 40, 30, 50};
         System.out.println(helper(weights, values, 10));
-        System.out.println(getMaxValueBottomUp(weights, values, 10));  
+        System.out.println(getMaxValueBottomUp(weights, values, 10));
         System.out.println(getMaxValueBottomUpSpaceOptimized(weights, values, 10));
 
-
+        new Knapsack01Test().testAll();
     }
 
 
-    private static int helper(int[] weights, int[] values, int capacity){
+    // Time: O(N × W) | Space: O(N × W) dp table + O(N) stack
+    static int helper(int[] weights, int[] values, int capacity){
         int[][] dp = new int[weights.length+1][capacity+1];
         for(int[] arr: dp){
             Arrays.fill(arr, -1);
@@ -59,6 +60,7 @@ public class Knapsack01{
     // Top-down approach
     // include-exclude pattern
     // state: index, remaining capacity
+    // Time: O(N × W) | Space: O(N × W) dp table + O(N) stack
     private static int getMaxValueTopDown(int index, int remainingCapacity, int[] weights, int[] values, int[][] dp){
         // memory
         if(dp[index][remainingCapacity] != -1){
@@ -83,7 +85,8 @@ public class Knapsack01{
     /* Get maximum value */
     // Bottum-up approach
     // state: index, capacity
-    private static int getMaxValueBottomUp(int[] weights, int[] values, int capacity){
+    // Time: O(N × W) | Space: O(N × W) dp table
+    static int getMaxValueBottomUp(int[] weights, int[] values, int capacity){
         // memory
         int[][] dp = new int[capacity+1][weights.length+1];
 
@@ -118,7 +121,8 @@ public class Knapsack01{
     /* Get maximum value */
     // Bottum-up approach - space optimized
     // state: index, capacity
-    private static int getMaxValueBottomUpSpaceOptimized(int[] weights, int[] values, int capacity){
+    // Time: O(N × W) | Space: O(W)
+    static int getMaxValueBottomUpSpaceOptimized(int[] weights, int[] values, int capacity){
         int[] dp = new int[capacity+1];
         for(int index = weights.length-1; index >=0; index--){
             for(int cap = capacity; cap >= 0; cap--){
@@ -130,6 +134,5 @@ public class Knapsack01{
         return dp[capacity];
     }
 
-    /* Get maximum value- item indices */
 
 }
