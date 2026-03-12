@@ -7,24 +7,6 @@ public class UnboundedKnapsack{
     public static void main(String[] args){
 
         // test with proper edge cases
-        // test case 1
-        int[] weights = {1, 2, 3, 2};
-        int[] values = {10, 15, 40, 20};
-        int capacity = 6;
-
-        System.out.println(helper(weights, values, capacity));  // expected output: 80
-        System.out.println(getMaxValueBottomUp(weights, values, capacity)); // expected output: 80
-        System.out.println(getMaxValueBottomUpSpaceOptimized(weights, values, capacity)); // expected output: 80
-
-        // test case 2
-        weights = new int[]{1, 2, 3, 4, 5};
-        values = new int[]{10, 15, 40, 30, 50};
-        capacity = 10;
-
-        System.out.println(helper(weights, values, capacity));  // expected output: 130
-        System.out.println(getMaxValueBottomUp(weights, values, capacity)); // expected output: 130
-        System.out.println(getMaxValueBottomUpSpaceOptimized(weights, values, capacity)); // expected output: 130
-
         new UnboundedKnapsackTest().testAll();
     }
 
