@@ -30,7 +30,7 @@ import java.util.Arrays;
  * For each test case, output a single integer: the number of combinations to
  * travel a distance of S modulo 1000000007.
  */
-public class WaysofJump {
+public class WaysOfJump {
   static int MOD = 1000000007;
   
   public static void main(String[] args) throws IOException{
