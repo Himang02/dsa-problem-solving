@@ -5,7 +5,8 @@ import java.io.*;
 
 /*
 Melting Ice Cream
-https://www.algouniversity.com/problem/173/?asid=2036
+https://www.algouniversity.com/problem/280/?asid=2036
+
 
 You and your brother bought ice cream on a summer evening, and it is melting --
 you must reach home within k minutes to save it.
