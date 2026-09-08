@@ -1,0 +1,19 @@
+# Never commit session / login data
+edge_profile/
+cookies.json
+classes_page.html
+page_links.json
+one_class_req.html
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Output (regenerate anytime)
+classes.xlsx
+classes.csv
+classes.docx
+playlists.xlsx
+playlists.csv
+playlists.docx
