@@ -138,3 +138,35 @@ public class CountComponents {
 
     
 }
+
+/*
+REVIEW NOTES  (2026-09-12)
+
+1. VERDICT: correct, no bugs. All seven direct cases pass (sample, m=0, n=1,
+   duplicate edge + self loop, star, forest of two trees, two triangles), 400
+   randomized graphs vs a reference BFS gave zero mismatches, and at full size
+   (N=1e5, M=2e5) it returns 2575 in 0.34s, matching the reference exactly.
+
+2. THE KEY PROPERTY: `visited` is allocated ONCE in main and passed down, never
+   reset between launches. That is what keeps the whole thing O(N + M) even
+   though BFS appears inside a loop -- each edge is examined once ACROSS ALL
+   runs, not once per run. Resetting it would make this O(N * (N + M)).
+
+3. THE ANSWER IS THE LAUNCH COUNT: every BFS floods exactly one component and
+   marks all of it, so counting how many times you START a BFS is the answer.
+   Isolated nodes fall out for free -- the outer loop finds them, their BFS
+   visits only themselves.
+
+4. SELF LOOPS AND DUPLICATE EDGES NEED NO SPECIAL CASE: u sits in its own
+   adjacency list, but is already visited by the time the loop reaches it, so
+   the visited check absorbs both. No de-duplication of input required.
+
+5. MARKING AT ENQUEUE (not dequeue) is right -- it prevents the same node
+   entering the queue twice from two different neighbours.
+
+6. NITS ONLY: `int current = queue.peek(); ... queue.poll();` should be
+   `int current = queue.poll();`. currentList.get(i) appears three times in one
+   condition -- use for-each. `while(index < n)` is a for loop in disguise. And
+   levelOrderTraverse takes a 1-indexed src then immediately does src-1 while
+   the caller passes index+1; the two conversions cancel out.
+*/

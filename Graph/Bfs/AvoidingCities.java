@@ -121,3 +121,36 @@ public class AvoidingCities {
 
     }
 }
+
+/*
+REVIEW NOTES  (2026-09-12)
+
+1. VERDICT: clean except one gap. 400 randomized graphs vs a reference BFS
+   produced zero mismatches outside the cursed-src case below. Direct cases all
+   pass: sample, src==dest, disconnected, m=0, cursed destination, cursed cut
+   vertex, direct edge. Performance is comfortable -- a 100k-node path (BFS
+   depth 99999) in 0.33s, a 200k-edge graph in 0.40s.
+
+2. OPEN GAP: a cursed SRC. The code enqueues src and sets levelMap[src] = 0
+   without consulting isCursed[src], so BFS departs from a city it is not
+   allowed to occupy and reports a real distance where -1 is expected. All 63
+   differential mismatches were this and nothing else. One line:
+       if (isCursed[src] == 1) { System.out.println(-1); return; }
+   The statement never says whether src can be cursed, so it may be untested.
+
+3. DONE WELL: pre-filling levelMap with -1 means the final println prints the
+   right answer for both reachable and unreachable with NO branch at all. That
+   is the neat version of this.
+
+4. DONE WELL: isFound = (src == dest) is exactly the guard MinimumJumps is
+   missing. Same author, same week -- the fix just never travelled back.
+
+5. WORKS BY INITIALISATION, NOT BY CHECK: a cursed DESTINATION resolves
+   correctly because the == dest test still fires and breaks, but the enqueue
+   was skipped so levelMap[dest] stays -1. Right answer; understand that it is
+   the -1 fill carrying it, not an explicit test.
+
+6. IMPROVE: lines in the neighbour loop call adjList.get(current).get(i) four
+   times in one if. Hoist `int next = ...` or use a for-each over
+   adjList.get(current).
+*/

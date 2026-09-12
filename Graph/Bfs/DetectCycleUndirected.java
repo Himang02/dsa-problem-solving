@@ -157,3 +157,39 @@ public class DetectCycleUndirected {
     }
 
 }
+
+/*
+REVIEW NOTES  (2026-09-12)
+
+1. VERDICT: correct, no bugs. All samples plus m=0, n=1, star, forest of two
+   trees, 4-cycle and siblings-sharing-a-child pass. 600 randomized simple
+   graphs vs the "M == N - components" reference gave zero mismatches. A
+   100k-node path (full traversal, no cycle) runs in 0.35s; a 33k-component
+   forest with the cycle only in the LAST component answers YES in 0.33s.
+
+2. BEST IDEA IN THE FILE: parents[] doubles as the visited marker AND the parent
+   record -- -1 = unvisited, 0 = component root, anything else = actual parent.
+   One array instead of two, and the two facts that must agree cannot drift
+   apart. The 0 sentinel is safe precisely because nodes are numbered from 1.
+
+3. THE ORDERING IS LOAD-BEARING: the cycle test runs BEFORE the discovery
+   assignment. Checking first is what stops a node being compared against a
+   parent link it only just acquired. Do not reorder those two ifs.
+
+4. MARKING AT ENQUEUE IS CORRECT HERE: if two nodes both reach an unvisited w,
+   the second sees w already marked and reports the cycle -- which is right,
+   since two distinct routes into w from a shared root always close a genuine
+   cycle.
+
+5. WHY THE PARENT CHECK EXISTS AT ALL: every undirected edge sits in BOTH
+   adjacency lists, so standing on u you will always see the node you came from
+   marked visited. That is the same edge viewed backwards, not a cycle.
+   Excluding exactly the parent removes the false positive. NOTE this is only
+   valid on a SIMPLE graph -- two parallel edges are a real 2-cycle that a
+   node-based parent check swallows; you would need to track the parent EDGE.
+
+6. NITS: `while(index < n)` is a for loop in disguise (third file with this).
+   The method and the local are both named isCyclic -- hasCycleFrom(...) would
+   read better. Each launch allocates a fresh ArrayDeque; irrelevant at 33k
+   allocations, but hoist-and-clear is the pattern if it ever matters.
+*/

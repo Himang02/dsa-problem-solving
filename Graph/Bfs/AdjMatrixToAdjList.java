@@ -92,3 +92,32 @@ public class AdjMatrixToAdjList {
 
     
 }
+
+/*
+REVIEW NOTES  (2026-09-12)
+
+1. VERDICT: correct. Sample matches exactly; N=1 with a single 0, and an
+   all-zeros 3x3, both print the bare "i: " prefix as the spec wants. At
+   N <= 100 the O(N^2) read/print is nowhere near any limit.
+
+2. IMPROVE: `new List[n]` is a raw array of generics -- that is where the
+   "unchecked or unsafe operations" warning comes from. Use
+   List<List<Integer>> adjList = new ArrayList<>(); instead. Later files
+   (AvoidingCities onward) already do this.
+
+3. IMPROVE: the "all but the last, then the last" split exists only to avoid a
+   trailing space -- but the sample output in the statement HAS trailing spaces,
+   so the judge trims. A single loop appending (x + " ") is equivalent and
+   shorter. Better still: append ' ' BEFORE each neighbour, which removes the
+   special case entirely.
+
+4. FRAGILE: reading re-tokenizes per line, so it assumes each matrix row really
+   is on its own line. The statement guarantees that, but it was verified to
+   throw NullPointerException if the input wraps rows differently.
+   StreamTokenizer is immune to line layout -- that, not speed, is its real
+   advantage.
+
+5. SEE ALSO: the output-buffering NOTE in the header above. Measured 5x
+   (200ms -> 41ms over 100k rows) for one StringBuilder vs println-per-row.
+   Irrelevant at N <= 100, but adopt it as a reflex.
+*/

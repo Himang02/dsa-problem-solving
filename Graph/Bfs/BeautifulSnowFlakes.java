@@ -106,3 +106,34 @@ public class BeautifulSnowFlakes {
     System.out.println(count);
   }
 }
+
+/*
+REVIEW NOTES  (2026-09-12)
+
+1. VERDICT: correct. Passes the sample plus: no edges, a lone edge, a triangle,
+   a 4-path, two equal stars, star+isolated, star(3)+star(4), and star+triangle.
+   Obeys the "no BFS/DFS" hint -- degrees alone, O(N + M).
+
+2. WHY IT WORKS: a snowflake is exactly a star. A node c with deg != 1 whose
+   every neighbour has deg 1 means the component is precisely {c} + N(c). Two
+   easy misses that were handled: an isolated node (deg 0 != 1) is a snowflake
+   of size 1, and a lone edge u--v is NOT one (it has ZERO nodes of deg != 1,
+   not exactly one).
+
+3. SUBTLE BUT FINE: the map is keyed on degree, not on component size. It still
+   gives the right count because size = degree + 1, so two snowflakes match on
+   one iff they match on the other. It READS like an off-by-one -- add a comment
+   or key on size() + 1, or you will re-litigate this with yourself later.
+
+4. DELIBERATE CHOICE: Set adjacency silently collapses a repeated edge. The
+   statement only promises the two integers on a line differ (no self loops); it
+   never rules out a duplicate edge. On 3 3 / 1 2 / 1 2 / 1 3 this answers 1
+   (simple-graph reading) where multiplicity would give 0. Almost certainly
+   untested, and Set is the sane reading -- but know it is a choice.
+
+5. IMPROVE: `new HashSet[n]` is the unchecked-warning source again. The tally
+   loop also collapses to Collections.frequency(map.values(), 1).
+
+6. SAFE, DO NOT "FIX": entry.getValue() == 1 compares Integer against an int
+   literal, so it unboxes. The trap only bites when BOTH sides are Integer.
+*/

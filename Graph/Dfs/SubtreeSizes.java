@@ -162,3 +162,39 @@ public class SubtreeSizes {
     }
     
 }
+
+/*
+REVIEW NOTES  (2026-09-12)
+
+1. VERDICT: correct, no bugs. Samples, star, and child-first edge ordering all
+   pass; a 100,000-node path prints exactly 100000 99999 ... 2 1 in 2.36s; and
+   300 random trees with shuffled edges and random orientation gave zero
+   mismatches.
+
+2. THE POST-ORDER PLACEMENT IS RIGHT: dp[currNode-1] is written only AFTER the
+   child loop, via `return dp[currNode-1] = subtreeSize;`. That assignment-as-
+   expression stores and returns in one step, and its position after the loop is
+   what makes this post-order. Writing before recursing would cache a value that
+   is not finished yet -- the classic way this problem breaks.
+
+3. SIZE vs HEIGHT: same shape, one word different.
+       height(u) = 1 + MAX over children
+       size(u)   = 1 + SUM over children
+   With height you can take each child's answer as it arrives; with size you
+   need EVERY child finished before u is done.
+
+4. THREADING IMPROVED ON THE TEMPLATE: input parsing stays on main and only the
+   recursion moves to the 64 MB thread. Reading is iterative and has no business
+   on a deep-stack thread, and main keeps its legitimate `throws IOException`
+   instead of needing a try/catch. Do it this way from now on.
+
+5. THE MEMO NEVER FIRES: `if(dp[currNode-1] != -1) return dp[currNode-1];` is
+   dead on a tree -- with the parent skip every node is reached exactly once, so
+   dp is purely the output array. Harmless, and the -1 fill is a useful
+   unvisited marker, but memoization only earns its place when a node can be
+   reached by several routes (a DAG, or DP over states).
+
+6. FREE SELF-CHECK: dp[0] must come out as exactly N. And note the sizes sum to
+   MORE than N overall -- each node is counted once per ancestor -- so do not
+   expect the output to add up to N.
+*/

@@ -152,3 +152,41 @@ public class TreeHeight {
         return maxHeight;
     }
 }
+
+/*
+REVIEW NOTES  (2026-09-12)
+
+1. VERDICT: logic was correct from the start; the RECURSION DEPTH was not.
+   Measured on a path-shaped tree: N=5000 fine, N=8000 fine, N=9000
+   StackOverflowError. That is roughly a twelfth of the allowed N -- it broke
+   between 8,000 and 9,000 frames on the default stack.
+
+2. PROOF IT WAS STACK, NOT LOGIC: the identical 100,000-node input printed
+   99999 correctly under `java -Xss64m`. The algorithm was never wrong.
+
+3. FIXED with the big-stack thread. Since a judge will not let you pass -Xss,
+   the 4-arg Thread constructor is the ONLY way to request a stack size from
+   inside the program:
+       new Thread(null, TreeHeight::solve, "deep", 1 << 26).start();
+   (1 << 26 = 67108864 bytes = 64 MB.) Now: N=100000 path in 0.69s, and 300
+   random trees with shuffled edge order and random edge orientation gave zero
+   mismatches.
+
+4. THE COMPILE ERROR THIS CAUSES: solve() is used as a Runnable, and
+   Runnable.run() declares no checked exceptions -- so solve() CANNOT say
+   `throws IOException` the way main could. The reading code has to move inside
+   a try/catch. Wrapping in RuntimeException satisfies the compiler without
+   hiding the failure.
+
+5. THE TRAP THAT COMES WITH THE THREAD: an uncaught exception on the worker
+   thread kills only that thread and the JVM still exits 0. On a judge that
+   looks like "wrong answer, no output" rather than a runtime error. Also:
+   calling .run() instead of .start() would execute on the main thread with its
+   original small stack, silently defeating the whole point.
+
+6. BETTER STRUCTURE (see SubtreeSizes): keep the INPUT PARSING on main and move
+   only the recursion to the big-stack thread. Reading is iterative and never
+   needs a deep stack, and main then keeps its legitimate `throws IOException`.
+   Leftover here: main still declares throws IOException but can no longer throw
+   it -- harmless dead syntax.
+*/

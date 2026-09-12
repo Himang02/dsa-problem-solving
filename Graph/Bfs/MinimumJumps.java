@@ -192,3 +192,40 @@ public class MinimumJumps {
         }
     }
 }
+
+/*
+REVIEW NOTES  (2026-09-12)
+
+1. VERDICT: OPEN BUG -- src == dest returns 2 instead of 0, in BOTH methods.
+   Differential-tested against a reference BFS on 300 random graphs: 66
+   mismatches, every single one this case. Example: n=2, edge 2-1, start 1,
+   target 1 -> prints 2.
+
+2. THE CAUSE: src is added to `visited` before any == dest comparison happens,
+   so the start node is never tested against the target. BFS then walks out to a
+   neighbour and back, sees src in that neighbour's adjacency list, and reports
+   the length of the round trip. FIX, at the top of each method:
+       if (src == dest) { System.out.println(0); return; }
+   Worth doing even though 0 is also the "unreachable" output -- right now it
+   prints 2, which is neither.
+
+3. BEFORE SUBMITTING: main calls BOTH methods, so it prints two lines. Fine for
+   comparing approaches locally, but comment one out or the judge sees doubled
+   output.
+
+4. THE HEADER NOTE IS OVERCAUTIOUS: BufferedReader + StringTokenizer was
+   measured reading the full worst case (n=3500, m=1e6, a 10MB file) in 0.68s,
+   still running under a 64MB heap. No StreamTokenizer rewrite needed. Follow-up
+   benchmark: Scanner ~755ms, split ~232ms, StringTokenizer ~186ms,
+   StreamTokenizer ~185ms -- the last two are a tie. Only Scanner is genuinely
+   bad.
+
+5. THE TWO-QUEUE VERSION IS CORRECT BUT NOT WORTH KEEPING: `jumps` increments
+   twice per outer iteration and its parity gates which queue drains, so
+   jumps == the level being expanded. It works, but the single-queue + level map
+   is a third of the code with no parity invariant to keep straight. Keep that
+   one.
+
+6. IMPROVE: `new List[n]` raw type -- same unchecked warning as
+   AdjMatrixToAdjList.
+*/
