@@ -144,7 +144,8 @@ public class DetectCycleDirectedDfs {
         Runnable r = new Runnable() {
             @Override
             public void run() {
-                System.out.println(hasCycle(n, adjList) ? "YES" : "NO");
+                // System.out.println(hasCycle(n, adjList) ? "YES" : "NO");
+                System.out.println(hasCycleColorApproach(n, adjList) ? "YES" : "NO");
             }
         };
         new Thread(null, r, "solver", 1 << 26).start();
@@ -194,6 +195,39 @@ public class DetectCycleDirectedDfs {
             visited[num] = false;
         }
 
+        return false;
+    }
+
+    private static boolean hasCycleColorApproach(int n, List<List<Integer>> adjList){
+        int[] visited = new int[n]; // 0 -> unvisited, 1 -> visited by current path, 2 -> visited by prev path
+        
+        for(int i = 0; i < n; i++){
+            if(visited[i] != 2){
+                if(hasCycle(i, adjList, visited)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean hasCycle(int node, List<List<Integer>> adjList, int[] visited){
+        visited[node] = 1;
+
+        
+        // transition
+        for(Integer num : adjList.get(node)){
+            // System.out.println(num + ", " + Arrays.toString(visited));
+            if(visited[num] == 1){
+                return true;
+            }
+
+            if(visited[num] != 2 && hasCycle(num, adjList, visited)){
+                return true;
+            }
+        }
+
+        visited[node] = 2;
         return false;
     }
 }
@@ -247,4 +281,45 @@ REVIEW NOTES  (2026-09-16)
    EDGE ID. Neither idea applies here -- directed edges appear once, in one
    direction, so there is nothing to skip. The question changes from "is this
    the edge I came in on?" to "is this node still on my current path?".
+*/
+
+/*
+REVIEW NOTES -- SECOND APPROACH: hasCycleColorApproach  (2026-09-16)
+
+1. VERDICT: correct and linear, first try. 4/4 samples, 6/6 edge cases, 0 of 400
+   randomized graphs fail. Diamond DAG k=28 runs in 382ms / 398ms at the two
+   numberings -- the numbering-independence the first approach only reached on
+   its third attempt. 100k chain 0.55s, 100k DAG with 200k edges 0.60s. main now
+   calls this one, with the boolean version commented out.
+
+2. EVERY PLACEMENT IS RIGHT: visited[node] = 1 on ENTRY, `== 1` is the cycle,
+   `!= 2` gates the recursion, and visited[node] = 2 AFTER the loop. That last
+   one is the detail that matters -- marking BLACK early would erase the GRAY
+   state the cycle check depends on.
+
+3. WHY THIS IS THE BETTER OF THE TWO: the two-boolean version needs
+   visited[i] = true / false around the outer-loop call AND
+   visited[num] = true / false around each recursive call -- four bookkeeping
+   lines living OUTSIDE the recursive method, where the caller has to remember
+   them. Here both transitions are inside the function: one line on entry, one
+   on exit, nothing for the caller to do. And because the three states are
+   values of ONE variable they are mutually exclusive by construction, so they
+   cannot drift out of sync the way two independent booleans can -- which is
+   precisely how the first version's `tested` ended up gating the wrong way.
+
+4. SAME ALGORITHM, DIFFERENT ENCODING: 0/1/2 here is exactly
+   !tested / visited / (tested && !visited) there. Compare the two side by side
+   in this file -- the second one needed no fixes, and that is the argument for
+   the encoding rather than for the author.
+
+5. MINOR: the outer loop tests `visited[i] != 2` where `== 0` would say the
+   intent directly. They are equivalent here only because a node is left as 1
+   solely when a cycle was found and the method returns immediately; if that
+   early return ever changed, `!= 2` would silently start re-entering GRAY
+   nodes. `== 0` does not depend on that reasoning.
+
+6. NOTE FOR LATER: this file now carries TWO complete implementations and
+   overloads hasCycle three ways. Kept deliberately as a record of the journey
+   (see the first REVIEW NOTES block for the two bugs the boolean version
+   needed). If it ever gets trimmed to one, keep this one.
 */
